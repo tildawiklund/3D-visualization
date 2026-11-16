@@ -45,12 +45,17 @@ fwrite(rules,'rules_input_to_cytoscape_function.csv', sep = ";")
 
 
 # ------ THE FOLLOWING PART USES THE RULES FROM ROSETTA AND CONNECTS TO CYTOSCAPE TO CREATE 3D VIEW --------
+# For it to work, Cy3D must be downloaded
 library(RCy3)
 library(devtools)
 
 
 # The code for connecting to github (and that supports the 3D visualisation)
-devtools::install_github("tildawiklund/Cytoscape-3D-visualisation")
+# devtools::install_github("tildawiklund/Cytoscape-3D-visualisation")
+
+# or, to load it without installing (handy if you're editing the code)
+devtools::load_all("/Users/tildawiklund/Desktop/Slutkursen/Cytoscape-3D-visualisation")
+
 library(csVisuNet)
 
 # Open cytoscape app
@@ -58,12 +63,14 @@ library(csVisuNet)
 # Visunet visualization
 cytoscapePing() # to see if Cytoscape is open
 
-# Switch to Cy3D 3D view
+# Switch to Cy3D 3D view - THIS IS MANDATORY FOR 3D FUNCTION
 commandsRun("cy3d set renderer rendererID=org.baderlab.cy3d") 
+#commandsRun("cy3d set renderer rendererID=org.cytoscape.ding") # 2D
 
-# Generate info for Cytoscape + connect
-vis <- visunetcyto(rules[1:100, ]) 
+# Generate info for 3D Cytoscape + connect
+vis <- visunetcyto3D(rules[1:100, ]) 
 
+# -------------------------------------------------------------------
 
 # This part is optional to check on the node info used in Cytoscape
 library(data.table)
