@@ -51,30 +51,40 @@ library(devtools)
 
 
 # The code for connecting to github (and that supports the 3D visualisation)
-# devtools::install_github("tildawiklund/Cytoscape-3D-visualisation")
+devtools::install_github("tildawiklund/Cytoscape-3D-visualisation")
 
-# or, to load it without installing (handy if you're editing the code)
+# or, to load it without installing (good when editing)
 devtools::load_all("/Users/tildawiklund/Desktop/Slutkursen/Cytoscape-3D-visualisation")
 
 library(csVisuNet)
 
 # Open cytoscape app
-
-# Visunet visualization
 cytoscapePing() # to see if Cytoscape is open
 
+# ---- For 3D visualisation ---- 
 # Switch to Cy3D 3D view - THIS IS MANDATORY FOR 3D FUNCTION
 commandsRun("cy3d set renderer rendererID=org.baderlab.cy3d") 
-#commandsRun("cy3d set renderer rendererID=org.cytoscape.ding") # 2D
 
 # Generate info for 3D Cytoscape + connect
 vis <- visunetcyto3D(rules[1:100, ]) 
+#  ---- 
+
+
+# ---- For 2D visualisation ---- 
+# Switch to Cy3D 3D view - THIS IS MANDATORY FOR 3D FUNCTION
+commandsRun("cy3d set renderer rendererID=org.cytoscape.ding") # 2D
+
+# Generate info for 3D Cytoscape + connect
+vis <- visunetcyto(rules[1:100, ])
+# ---- 
+
 
 # -------------------------------------------------------------------
 
 # This part is optional to check on the node info used in Cytoscape
 library(data.table)
-fwrite(vis$all$nodes,'see_node_info_for_cytoscape.csv', sep = ";")
+fwrite(vis$all$nodes,'vis_nodes.csv', sep = ";")
+fwrite(vis$all$edges,'vis_edges.csv', sep = ";")
 
 
 
